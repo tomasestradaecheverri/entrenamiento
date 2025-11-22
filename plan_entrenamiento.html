@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan de Entrenamiento - 1 Mes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== VARIABLES DE COLOR Y TEMA ===== */
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #151b2d;
+            --bg-card: #1a2235;
+            --text-primary: #e8edf4;
+            --text-secondary: #a0aec0;
+            --accent-lunes: #3b82f6;      /* Azul para Lunes */
+            --accent-martes: #10b981;     /* Verde para Martes */
+            --accent-miercoles: #8b5cf6;  /* Morado para Miércoles */
+            --accent-jueves: #f59e0b;     /* Ámbar para Jueves */
+            --accent-viernes: #06b6d4;    /* Cyan para Viernes */
+            --border-color: #2d3748;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===== RESET Y ESTILOS BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #0f1419 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            /* Mejoras para iOS y dispositivos táctiles */
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        /* ===== CONTENEDOR PRINCIPAL ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 900;
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* ===== INFO GENERAL ===== */
+        .session-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .info-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card h3 {
+            font-family: 'Barlow', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-card p {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ===== NAVEGACIÓN DE DÍAS (TABS) ===== */
+        /* Usamos pestañas horizontales que permiten navegar entre los días */
+        .tabs-container {
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            min-width: max-content;
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            /* Mejoras críticas para iOS */
+            -webkit-tap-highlight-color: rgba(59, 130, 246, 0.3);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            /* Asegurar área táctil mínima de 44x44px según guías de Apple */
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tab:hover {
+            border-color: var(--text-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Cada día tiene su color distintivo cuando está activo */
+        .tab.active[data-day="lunes"] {
+            background: linear-gradient(135deg, var(--accent-lunes), #2563eb);
+            border-color: var(--accent-lunes);
+            color: white;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .tab.active[data-day="martes"] {
+            background: linear-gradient(135deg, var(--accent-martes), #059669);
+            border-color: var(--accent-martes);
+            color: white;
+            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .tab.active[data-day="miercoles"] {
+            background: linear-gradient(135deg, var(--accent-miercoles), #7c3aed);
+            border-color: var(--accent-miercoles);
+            color: white;
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .tab.active[data-day="jueves"] {
+            background: linear-gradient(135deg, var(--accent-jueves), #d97706);
+            border-color: var(--accent-jueves);
+            color: white;
+            box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .tab.active[data-day="viernes"] {
+            background: linear-gradient(135deg, var(--accent-viernes), #0891b2);
+            border-color: var(--accent-viernes);
+            color: white;
+            box-shadow: 0 5px 20px rgba(6, 182, 212, 0.4);
+        }
+
+        /* ===== CONTENIDO DE DÍAS ===== */
+        .day-content {
+            display: none;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        .day-content.active {
+            display: block;
+        }
+
+        /* Tarjeta del día con borde superior del color correspondiente */
+        .day-card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--current-accent);
+        }
+
+        .day-title {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--current-accent);
+        }
+
+        .day-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* ===== SECCIONES DE ENTRENAMIENTO ===== */
+        /* Cada fase del entrenamiento (calentamiento, principal, enfriamiento) */
+        .training-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+        }
+
+        .section-duration {
+            margin-left: auto;
+            background: var(--bg-secondary);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        /* ===== GRUPOS MUSCULARES ===== */
+        .muscle-group {
+            margin-bottom: 2rem;
+        }
+
+        .muscle-group-title {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--current-accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* ===== EJERCICIOS ===== */
+        /* Cada ejercicio se muestra como una tarjeta individual */
+        .exercise {
+            background: var(--bg-secondary);
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin-bottom: 0.8rem;
+            border-left: 3px solid var(--current-accent);
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .exercise:hover {
+            transform: translateX(5px);
+            background: #1f2937;
+        }
+
+        .exercise-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .exercise-sets {
+            background: var(--bg-primary);
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 700;
+            color: var(--current-accent);
+            border: 1px solid var(--border-color);
+        }
+
+        .exercise-note {
+            background: rgba(139, 92, 246, 0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #c4b5fd;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        /* ===== LISTA SIMPLE (para calentamiento/enfriamiento) ===== */
+        .simple-list {
+            list-style: none;
+        }
+
+        .simple-list li {
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 3px solid var(--current-accent);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .simple-list li:hover {
+            transform: translateX(5px);
+            background: #1f2937;
+        }
+
+        /* ===== TABLA DE PROGRESIÓN ===== */
+        .progression-section {
+            margin-top: 3rem;
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .progression-title {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .progression-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 0.8rem;
+        }
+
+        .progression-table thead th {
+            background: var(--bg-primary);
+            padding: 1rem;
+            text-align: left;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            border: 1px solid var(--border-color);
+        }
+
+        .progression-table thead th:first-child {
+            border-radius: 10px 0 0 10px;
+        }
+
+        .progression-table thead th:last-child {
+            border-radius: 0 10px 10px 0;
+        }
+
+        .progression-table tbody tr {
+            background: var(--bg-card);
+            transition: all 0.3s ease;
+        }
+
+        .progression-table tbody tr:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .progression-table tbody td {
+            padding: 1.2rem 1rem;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .progression-table tbody td:first-child {
+            border-radius: 10px 0 0 10px;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 900;
+            font-size: 1.3rem;
+            color: var(--accent-lunes);
+        }
+
+        .progression-table tbody td:last-child {
+            border-radius: 0 10px 10px 0;
+        }
+
+        /* ===== ANIMACIONES ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                width: 100%;
+            }
+
+            .exercise {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .exercise-sets,
+            .exercise-note {
+                justify-self: start;
+            }
+
+            .progression-table {
+                font-size: 0.9rem;
+            }
+
+            .progression-table thead th,
+            .progression-table tbody td {
+                padding: 0.8rem 0.5rem;
+            }
+        }
+
+        /* ===== BOTÓN DE VIDEO ===== */
+        .video-button {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+            /* Mejoras críticas para iOS y táctil */
+            -webkit-tap-highlight-color: rgba(239, 68, 68, 0.4);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            /* Área táctil mínima para iOS */
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .video-button:hover {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.5);
+        }
+
+        .video-button:active {
+            transform: translateY(0);
+        }
+
+        /* ===== MODAL DE VIDEO ===== */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out;
+            backdrop-filter: blur(5px);
+        }
+
+        .video-modal.active {
+            display: flex;
+        }
+
+        .video-modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease-out;
+            border: 1px solid var(--border-color);
+        }
+
+        .video-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .video-modal-title {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        .close-modal {
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            line-height: 1;
+            /* Mejoras para iOS */
+            -webkit-tap-highlight-color: rgba(239, 68, 68, 0.4);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            /* Asegurar tamaño táctil para iOS */
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        .close-modal:hover {
+            background: #dc2626;
+            transform: rotate(90deg);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .video-info {
+            margin-bottom: 2rem;
+        }
+
+        .video-info-text {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .video-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .watch-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+            border: none;
+            cursor: pointer;
+            /* Mejoras críticas para iOS */
+            -webkit-tap-highlight-color: rgba(239, 68, 68, 0.4);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            /* Área táctil apropiada */
+            min-height: 44px;
+        }
+
+        .watch-button:hover {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
+        }
+
+        .watch-button:active {
+            transform: translateY(-1px);
+        }
+
+        .video-note {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 1.5rem;
+            font-style: italic;
+        }
+
+        /* ===== UTILIDADES ===== */
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-2 {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Principal -->
+        <header>
+            <h1>💪 Plan de Entrenamiento</h1>
+            <p class="subtitle">Programa de 1 mes · Sesiones de 1 hora</p>
+        </header>
+
+        <!-- Información General de las Sesiones -->
+        <div class="session-info">
+            <div class="info-card">
+                <div class="icon">🔥</div>
+                <h3>Calentamiento</h3>
+                <p>10 minutos</p>
+            </div>
+            <div class="info-card">
+                <div class="icon">🏋️</div>
+                <h3>Entrenamiento</h3>
+                <p>40-45 minutos</p>
+            </div>
+            <div class="info-card">
+                <div class="icon">🧘</div>
+                <h3>Enfriamiento</h3>
+                <p>5-10 minutos</p>
+            </div>
+        </div>
+
+        <!-- Navegación por Días (Tabs) -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab active" data-day="lunes">🟦 LUNES</button>
+                <button class="tab" data-day="martes">🟩 MARTES</button>
+                <button class="tab" data-day="miercoles">🟪 MIÉRCOLES</button>
+                <button class="tab" data-day="jueves">🟫 JUEVES</button>
+                <button class="tab" data-day="viernes">🟦 VIERNES</button>
+            </div>
+        </div>
+
+        <!-- Contenido de Cada Día -->
+        
+        <!-- ========== LUNES ========== -->
+        <div id="lunes" class="day-content active" style="--current-accent: var(--accent-lunes)">
+            <div class="day-card">
+                <h2 class="day-title">LUNES</h2>
+                <p class="day-subtitle">Pecho, Tríceps y Hombro Posterior</p>
+
+                <!-- Calentamiento -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🔥</span>
+                        <h3 class="section-title">Calentamiento</h3>
+                        <span class="section-duration">10 min</span>
+                    </div>
+                    <ul class="simple-list">
+                        <li>Caminadora suave – 5 min</li>
+                        <li style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Movilidad de hombros y brazos – 5 min</span>
+                            <button class="video-button" data-video-id="xkZHYLd-0fY" data-video-title="Movilidad de Hombros y Brazos">
+                                ▶ Video
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Parte Principal -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🏋️</span>
+                        <h3 class="section-title">Parte Principal</h3>
+                        <span class="section-duration">40-45 min</span>
+                    </div>
+
+                    <!-- Pecho -->
+                    <div class="muscle-group">
+                        <h4 class="muscle-group-title">💪 Pecho</h4>
+                        <div class="exercise">
+                            <span class="exercise-name">Press de pecho en máquina</span>
+                            <span class="exercise-sets">3×12</span>
+                            <button class="video-button" data-video-id="GdBPBEKASZc" data-video-title="Press de Pecho en Máquina">
+                                ▶ Video
+                            </button>
+                        </div>
+                        <div class="exercise">
+                            <span class="exercise-name">Press inclinado con mancuernas</span>
+                            <span class="exercise-sets">2×12</span>
+                            <span class="exercise-note">Carga ligera</span>
+                            <button class="video-button" data-video-id="-zbesyTNztQ" data-video-title="Press Inclinado con Mancuernas">
+                                ▶ Video
+                            </button>
+                        </div>
+                        <div class="exercise">
+                            <span class="exercise-name">Aperturas en máquina (pec deck)</span>
+                            <span class="exercise-sets">2×15</span>
+                            <button class="video-button" data-video-id="QHrIO139sWc" data-video-title="Aperturas en Máquina (Pec Deck)">
+                                ▶ Video
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tríceps -->
+                    <div class="muscle-group">
+                        <h4 class="muscle-group-title">💪 Tríceps</h4>
+                        <div class="exercise">
+                            <span class="exercise-name">Extensión de tríceps en polea</span>
+                            <span class="exercise-sets">3×12</span>
+                            <button class="video-button" data-video-id="23qUSrn8lIU" data-video-title="Extensión de Tríceps en Polea">
+                                ▶ Video
+                            </button>
+                        </div>
+                        <div class="exercise">
+                            <span class="exercise-name">Fondos asistidos en máquina</span>
+                            <span class="exercise-sets">2×10</span>
+                            <button class="video-button" data-video-id="3Im-M48AqrM" data-video-title="Fondos Asistidos en Máquina">
+                                ▶ Video
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Hombro Posterior -->
+                    <div class="muscle-group">
+                        <h4 class="muscle-group-title">💪 Hombro Posterior</h4>
+                        <div class="exercise">
+                            <span class="exercise-name">Reverse fly en polea o máquina</span>
+                            <span class="exercise-sets">3×12-15</span>
+                            <button class="video-button" data-video-id="pb-xjewyo8M" data-video-title="Reverse Fly en Polea o Máquina">
+                                ▶ Video
+                            </button>
+                        </div>
+                        <div class="exercise">
+                            <span class="exercise-name">Face pull</span>
+                            <span class="exercise-sets">2×15</span>
+                            <span class="exercise-note">Muy ligero</span>
+                            <button class="video-button" data-video-id="nCqYQy-H12c" data-video-title="Face Pull">
+                                ▶ Video
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enfriamiento -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🧘</span>
+                        <h3 class="section-title">Enfriamiento</h3>
+                        <span class="section-duration">5-10 min</span>
+                    </div>
+                    <ul class="simple-list">
+                        <li>Estiramientos suaves de pecho, tríceps y hombros</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== MARTES ========== -->
+        <div id="martes" class="day-content" style="--current-accent: var(--accent-martes)">
+            <div class="day-card">
+                <h2 class="day-title">MARTES</h2>
+                <p class="day-subtitle">Pierna Anterior (Cuádriceps)</p>
+
+                <!-- Calentamiento -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🔥</span>
+                        <h3 class="section-title">Calentamiento</h3>
+                        <span class="section-duration">10 min</span>
+                    </div>
+                    <ul class="simple-list">
+                        <li>Bicicleta – 5 min</li>
+                        <li>Movilidad de caderas y rodillas – 5 min</li>
+                    </ul>
+                </div>
+
+                <!-- Parte Principal -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🏋️</span>
+                        <h3 class="section-title">Parte Principal</h3>
+                        <span class="section-duration">40-45 min</span>
+                    </div>
+
+                    <div class="exercise">
+                        <span class="exercise-name">Prensa de piernas</span>
+                        <span class="exercise-sets">3×12</span>
+                    </div>
+                    <div class="exercise">
+                        <span class="exercise-name">Extensión de piernas</span>
+                        <span class="exercise-sets">3×12</span>
+                    </div>
+                    <div class="exercise">
+                        <span class="exercise-name">Sentadilla en máquina Smith</span>
+                        <span class="exercise-sets">2×10</span>
+                        <span class="exercise-note">Muy poco peso</span>
+                    </div>
+                    <div class="exercise">
+                        <span class="exercise-name">Zancadas estáticas asistidas</span>
+                        <span class="exercise-sets">2×10 por pierna</span>
+                    </div>
+                </div>
+
+                <!-- Enfriamiento -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🧘</span>
+                        <h3 class="section-title">Enfriamiento</h3>
+                        <span class="section-duration">5-10 min</span>
+                    </div>
+                    <ul class="simple-list">
+                        <li>Estiramientos de cuádriceps y piernas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== MIÉRCOLES ========== -->
+        <div id="miercoles" class="day-content" style="--current-accent: var(--accent-miercoles)">
+            <div class="day-card">
+                <h2 class="day-title">MIÉRCOLES</h2>
+                <p class="day-subtitle">Espalda, Bíceps y Hombro Anterior</p>
+
+                <!-- Calentamiento -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🔥</span>
+                        <h3 class="section-title">Calentamiento</h3>
+                        <span class="section-duration">10 min</span>
+                    </div>
+                    <ul class="simple-list">
+                        <li>Caminadora – 5 min</li>
+                        <li>Movilidad de columna y hombros – 5 min</li>
+                    </ul>
+                </div>
+
+                <!-- Parte Principal -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🏋️</span>
+                        <h3 class="section-title">Parte Principal</h3>
+                        <span class="section-duration">40-45 min</span>
+                    </div>
+
+                    <!-- Espalda -->
+                    <div class="muscle-group">
+                        <h4 class="muscle-group-title">💪 Espalda</h4>
+                        <div class="exercise">
+                            <span class="exercise-name">Jalón al pecho</span>
+                            <span class="exercise-sets">3×12</span>
+                        </div>
+                        <div class="exercise">
+                            <span class="exercise-name">Remo sentado en máquina</span>
+                            <span class="exercise-sets">3×12</span>
+                        </div>
+                        <div class="exercise">
+                            <span class="exercise-name">Remo con mancuernas (apoyo en banco)</span>
+                            <span class="exercise-sets">2×10</span>
+                        </div>
+                    </div>
+
+                    <!-- Bíceps -->
+                    <div class="muscle-group">
+                        <h4 class="muscle-group-title">💪 Bíceps</h4>
+                        <div class="exercise">
+                            <span class="exercise-name">Curl en máquina</span>
+                            <span class="exercise-sets">3×12</span>
+                        </div>
+                        <div class="exercise">
+                            <span class="exercise-name">Curl con mancuernas alternado</span>
+                            <span class="exercise-sets">2×12</span>
+                        </div>
+                    </div>
+
+                    <!-- Hombro Anterior -->
+                    <div class="muscle-group">
+                        <h4 class="muscle-group-title">💪 Hombro Anterior</h4>
+                        <div class="exercise">
+                            <span class="exercise-name">Elevación frontal con mancuernas</span>
+                            <span class="exercise-sets">2×12</span>
+                            <span class="exercise-note">Muy ligeras</span>
+                        </div>
+                        <div class="exercise">
+                            <span class="exercise-name">Press de hombro en máquina</span>
+                            <span class="exercise-sets">2×10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enfriamiento -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🧘</span>
+                        <h3 class="section-title">Enfriamiento</h3>
+                        <span class="section-duration">5-10 min</span>
+                    </div>
+                    <ul class="simple-list">
+                        <li>Estiramientos de espalda, bíceps y hombros</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== JUEVES ========== -->
+        <div id="jueves" class="day-content" style="--current-accent: var(--accent-jueves)">
+            <div class="day-card">
+                <h2 class="day-title">JUEVES</h2>
+                <p class="day-subtitle">Pierna Posterior (Glúteos e Isquios)</p>
+
+                <!-- Calentamiento -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🔥</span>
+                        <h3 class="section-title">Calentamiento</h3>
+                        <span class="section-duration">10 min</span>
+                    </div>
+                    <ul class="simple-list">
+                        <li>Bicicleta o elíptica – 5 min</li>
+                        <li>Movilidad lumbo-pélvica – 5 min</li>
+                    </ul>
+                </div>
+
+                <!-- Parte Principal -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🏋️</span>
+                        <h3 class="section-title">Parte Principal</h3>
+                        <span class="section-duration">40-45 min</span>
+                    </div>
+
+                    <div class="exercise">
+                        <span class="exercise-name">Peso muerto rumano con mancuernas</span>
+                        <span class="exercise-sets">3×10</span>
+                        <span class="exercise-note">Ligero</span>
+                    </div>
+                    <div class="exercise">
+                        <span class="exercise-name">Curl femoral en máquina</span>
+                        <span class="exercise-sets">3×12</span>
+                    </div>
+                    <div class="exercise">
+                        <span class="exercise-name">Hip thrust en banco/máquina</span>
+                        <span class="exercise-sets">3×12</span>
+                    </div>
+                    <div class="exercise">
+                        <span class="exercise-name">Abducción de cadera en máquina</span>
+                        <span class="exercise-sets">2×15</span>
+                    </div>
+                    <div class="exercise">
+                        <span class="exercise-name">Elevación de glúteo en polea (kickback)</span>
+                        <span class="exercise-sets">2×12 por pierna</span>
+                    </div>
+                </div>
+
+                <!-- Enfriamiento -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🧘</span>
+                        <h3 class="section-title">Enfriamiento</h3>
+                        <span class="section-duration">5-10 min</span>
+                    </div>
+                    <ul class="simple-list">
+                        <li>Estiramientos de glúteos, isquios y zona lumbar</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== VIERNES ========== -->
+        <div id="viernes" class="day-content" style="--current-accent: var(--accent-viernes)">
+            <div class="day-card">
+                <h2 class="day-title">VIERNES</h2>
+                <p class="day-subtitle">Frecuencia 2 (Repetición Ligera)</p>
+
+                <div class="mb-2" style="background: rgba(6, 182, 212, 0.1); padding: 1rem; border-radius: 10px; border: 1px solid rgba(6, 182, 212, 0.3);">
+                    <p style="color: #67e8f9; font-weight: 600;">
+                        🎯 Objetivo: Fortalecer patrones aprendidos y mejorar técnica, SIN fatigar.
+                    </p>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.5rem;">
+                        Series y peso reducidos (70% del peso usado en la semana)
+                    </p>
+                </div>
+
+                <!-- Calentamiento -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🔥</span>
+                        <h3 class="section-title">Calentamiento</h3>
+                        <span class="section-duration">10 min</span>
+                    </div>
+                    <ul class="simple-list">
+                        <li>Caminadora o elíptica – 10 min</li>
+                    </ul>
+                </div>
+
+                <!-- Parte Principal -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🏋️</span>
+                        <h3 class="section-title">Parte Principal</h3>
+                        <span class="section-duration">30-35 min</span>
+                    </div>
+
+                    <div class="muscle-group">
+                        <h4 class="muscle-group-title">💪 Repaso de Grupos Musculares</h4>
+                        <div class="exercise">
+                            <span class="exercise-name">Pecho: Press en máquina</span>
+                            <span class="exercise-sets">2×12</span>
+                            <span class="exercise-note">70% del peso</span>
+                        </div>
+                        <div class="exercise">
+                            <span class="exercise-name">Espalda: Jalón al pecho</span>
+                            <span class="exercise-sets">2×12</span>
+                        </div>
+                        <div class="exercise">
+                            <span class="exercise-name">Hombro: Press en máquina</span>
+                            <span class="exercise-sets">2×10</span>
+                        </div>
+                        <div class="exercise">
+                            <span class="exercise-name">Bíceps: Curl en máquina</span>
+                            <span class="exercise-sets">2×12</span>
+                        </div>
+                        <div class="exercise">
+                            <span class="exercise-name">Tríceps: Polea</span>
+                            <span class="exercise-sets">2×12</span>
+                        </div>
+                        <div class="exercise">
+                            <span class="exercise-name">Piernas: Prensa</span>
+                            <span class="exercise-sets">2×12</span>
+                            <span class="exercise-note">Suave</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enfriamiento -->
+                <div class="training-section">
+                    <div class="section-header">
+                        <span class="section-icon">🧘</span>
+                        <h3 class="section-title">Enfriamiento</h3>
+                        <span class="section-duration">5-10 min</span>
+                    </div>
+                    <ul class="simple-list">
+                        <li>Estiramientos generales de todo el cuerpo</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== TABLA DE PROGRESIÓN MENSUAL ========== -->
+        <div class="progression-section">
+            <h2 class="progression-title">📈 Progresión Mensual</h2>
+            <table class="progression-table">
+                <thead>
+                    <tr>
+                        <th>Semana</th>
+                        <th>Objetivo</th>
+                        <th>Carga</th>
+                        <th>Ajustes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Aprender técnica / Control</td>
+                        <td>Muy ligero</td>
+                        <td>Tempo lento, rango completo</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Consolidar técnica</td>
+                        <td>Igual semana 1</td>
+                        <td>+1–2 reps si se siente cómodo</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Estímulo progresivo</td>
+                        <td>+5–10% peso</td>
+                        <td>Mantener buena forma</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Control motor</td>
+                        <td>Igual semana 3</td>
+                        <td>Tempo más lento y estable</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ========== MODAL PARA VIDEOS ========== -->
+    <!-- Este modal aparece cuando haces clic en cualquier botón de video -->
+    <div id="videoModal" class="video-modal">
+        <div class="video-modal-content">
+            <div class="video-modal-header">
+                <h3 id="videoTitle" class="video-modal-title">Video del Ejercicio</h3>
+                <button class="close-modal" onclick="closeVideo()">&times;</button>
+            </div>
+            <div class="video-container">
+                <div class="video-icon">🎬</div>
+                <div class="video-info">
+                    <p class="video-info-text">
+                        Este video te mostrará la técnica correcta para realizar el ejercicio.
+                    </p>
+                    <p class="video-info-text">
+                        El video se abrirá en una nueva pestaña de YouTube.
+                    </p>
+                </div>
+                <a id="videoLink" href="#" target="_blank" rel="noopener noreferrer" class="watch-button">
+                    <span>▶</span>
+                    <span>Ver Video en YouTube</span>
+                </a>
+                <p class="video-note">
+                    💡 Consejo: Después de ver el video, cierra la pestaña de YouTube para volver a tu plan de entrenamiento
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript para la funcionalidad de las pestañas y videos -->
+    <script>
+        /**
+         * IMPORTANTE: Este JavaScript está optimizado específicamente para funcionar
+         * en dispositivos iOS (iPhone/iPad) usando Safari, así como en todos los demás navegadores.
+         * 
+         * En lugar de usar onclick inline (onclick="function()"), usamos addEventListener
+         * que es más robusto y confiable en todos los dispositivos, especialmente iOS.
+         */
+
+        /**
+         * Función que maneja el cambio entre días
+         * Actualiza tanto el contenido visible como el estilo de las pestañas
+         */
+        function showDay(day) {
+            // Ocultar todos los contenidos de días
+            const allDayContents = document.querySelectorAll('.day-content');
+            allDayContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remover clase 'active' de todas las pestañas
+            const allTabs = document.querySelectorAll('.tab');
+            allTabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Mostrar el día seleccionado
+            document.getElementById(day).classList.add('active');
+
+            // Activar la pestaña correspondiente
+            const activeTab = document.querySelector(`.tab[data-day="${day}"]`);
+            activeTab.classList.add('active');
+
+            // Scroll suave hacia arriba para ver el contenido
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        /**
+         * Función para abrir el modal de video
+         * @param {string} videoId - El ID del video de YouTube (extraído de la URL)
+         * @param {string} title - El título del ejercicio para mostrar en el modal
+         */
+        function openVideo(videoId, title) {
+            // Obtener referencias a los elementos del modal
+            const modal = document.getElementById('videoModal');
+            const videoLink = document.getElementById('videoLink');
+            const videoTitle = document.getElementById('videoTitle');
+
+            // Construir la URL directa al video de YouTube
+            const youtubeUrl = `https://youtube.com/shorts/${videoId}`;
+
+            // Actualizar el título del modal con el nombre del ejercicio
+            videoTitle.textContent = title;
+
+            // Configurar el enlace del botón para que apunte al video
+            videoLink.href = youtubeUrl;
+
+            // Mostrar el modal agregando la clase 'active'
+            modal.classList.add('active');
+
+            // Prevenir el scroll del body cuando el modal está abierto
+            document.body.style.overflow = 'hidden';
+        }
+
+        /**
+         * Función para cerrar el modal de video
+         */
+        function closeVideo() {
+            const modal = document.getElementById('videoModal');
+
+            // Ocultar el modal removiendo la clase 'active'
+            modal.classList.remove('active');
+
+            // Restaurar el scroll del body
+            document.body.style.overflow = 'auto';
+        }
+
+        /**
+         * Esta sección se ejecuta cuando el DOM está completamente cargado
+         * Aquí configuramos todos los event listeners de manera apropiada para iOS
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            /**
+             * CONFIGURACIÓN DE PESTAÑAS (TABS)
+             * Agregamos event listeners a cada pestaña usando addEventListener
+             * en lugar de onclick inline, lo que funciona mucho mejor en iOS
+             */
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                // Usamos 'click' que funciona tanto en desktop como en móvil
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const day = this.getAttribute('data-day');
+                    showDay(day);
+                });
+
+                // Agregamos también soporte para 'touchend' específicamente para iOS
+                // Esto mejora la respuesta táctil en dispositivos móviles
+                tab.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    const day = this.getAttribute('data-day');
+                    showDay(day);
+                }, { passive: false });
+            });
+
+            /**
+             * CONFIGURACIÓN DE BOTONES DE VIDEO
+             * Agregamos event listeners a todos los botones de video
+             */
+            const videoButtons = document.querySelectorAll('.video-button');
+            videoButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Los atributos data se pasarán desde el HTML
+                    const videoId = this.getAttribute('data-video-id');
+                    const title = this.getAttribute('data-video-title');
+                    openVideo(videoId, title);
+                });
+
+                // Soporte adicional para touch en iOS
+                button.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const videoId = this.getAttribute('data-video-id');
+                    const title = this.getAttribute('data-video-title');
+                    openVideo(videoId, title);
+                }, { passive: false });
+            });
+
+            /**
+             * CONFIGURACIÓN DEL BOTÓN DE CERRAR MODAL
+             */
+            const closeButton = document.querySelector('.close-modal');
+            if (closeButton) {
+                closeButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    closeVideo();
+                });
+
+                closeButton.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    closeVideo();
+                }, { passive: false });
+            }
+
+            /**
+             * Cerrar el modal al hacer clic fuera del contenido del video
+             */
+            const modal = document.getElementById('videoModal');
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeVideo();
+                }
+            });
+
+            /**
+             * Cerrar el modal al presionar la tecla Escape
+             */
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    const modal = document.getElementById('videoModal');
+                    if (modal.classList.contains('active')) {
+                        closeVideo();
+                    }
+                }
+            });
+
+            /**
+             * ANIMACIÓN DE EJERCICIOS AL HACER SCROLL
+             */
+            const exercises = document.querySelectorAll('.exercise');
+            
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '0';
+                        setTimeout(() => {
+                            entry.target.style.transition = 'opacity 0.5s ease-out';
+                            entry.target.style.opacity = '1';
+                        }, 100);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            exercises.forEach(exercise => {
+                observer.observe(exercise);
+            });
+        });
+    </script>
+</body>
+</html>
