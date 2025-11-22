@@ -1236,12 +1236,6 @@
             // Activar la pestaña correspondiente
             const activeTab = document.querySelector(`.tab[data-day="${day}"]`);
             activeTab.classList.add('active');
-
-            // Scroll suave hacia arriba para ver el contenido
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
         }
 
         /**
